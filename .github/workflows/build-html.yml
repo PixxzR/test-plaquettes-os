@@ -1,14 +1,61 @@
-name: Générer les plaquettes HTML
+# name: Générer les plaquettes HTML
+
+# on:
+#   push:
+#     paths:
+#       - "plaquettes/**.pdf"
+#       - "scripts/*.py"
+#       - "index.html"
+#       - ".github/workflows/build-html.yml"
+
+# jobs:
+#   generate:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout du dépôt
+#         uses: actions/checkout@v3
+
+#       - name: Installer Python
+#         uses: actions/setup-python@v4
+#         with:
+#           python-version: "3.11"
+
+#       - name: Installer les dépendances Python
+#         run: |
+#           python -m pip install --upgrade pip
+#           pip install pdf2image pillow
+
+#       - name: Installer Poppler (pour pdf2image)
+#         run: sudo apt-get update && sudo apt-get install -y poppler-utils
+
+#       - name: Créer le dossier de sortie (si absent)
+#         run: mkdir -p html_plaquettes
+
+#       - name: Générer les versions HTML depuis PDF
+#         run: python scripts/convert_pdf_to_html.py
+
+#       - name: Mettre à jour index.html
+#         run: python scripts/generate_index.py
+
+#       - name: Commit et push des fichiers générés
+#         run: |
+#           git config user.name "GitHub Actions"
+#           git config user.email "actions@github.com"
+#           git add html_plaquettes/*.html html_plaquettes/*.png index.html
+#           git diff --cached --quiet || git commit -m "🔄 Génération automatique des HTML plaquettes + index"
+#           git push
+name: Conversion PDF ➜ HTML uniquement
 
 on:
   push:
     paths:
       - "plaquettes/**.pdf"
-      - "scripts/*.py"
-      - ".github/workflows/build-html.yml"
+      - "scripts/convert_pdf_to_html.py"
+      - ".github/workflows/convert-only.yml"
 
 jobs:
-  generate:
+  convert:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,22 +67,24 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Installer les dépendances Python
-        run: pip install pdf2image pillow jinja2
+      - name: Installer les dépendances nécessaires
+        run: |
+          python -m pip install --upgrade pip
+          pip install pdf2image pillow
 
       - name: Installer Poppler (pour pdf2image)
         run: sudo apt-get update && sudo apt-get install -y poppler-utils
 
-      - name: Générer les versions HTML depuis PDF
+      - name: Créer le dossier de sortie (si absent)
+        run: mkdir -p html_plaquettes
+
+      - name: Lancer la conversion PDF ➜ HTML
         run: python scripts/convert_pdf_to_html.py
 
-      - name: Générer le index.html principal
-        run: python scripts/generate_index.py
-
-      - name: Commit et push des fichiers générés
+      - name: Commit & Push des fichiers générés
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git add html_plaquettes/*.html html_plaquettes/*.png index.html
-          git commit -m "🔄 Génération automatique des HTML plaquettes + index"
-          git push || echo "Pas de modifications à pousser."
+          git add html_plaquettes/*.html html_plaquettes/*.png
+          git diff --cached --quiet || git commit -m "🖼️ Conversion PDF ➜ HTML automatique"
+          git push
