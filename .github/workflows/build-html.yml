@@ -1,0 +1,41 @@
+name: Générer les plaquettes HTML
+
+on:
+  push:
+    paths:
+      - "plaquettes/**.pdf"
+      - "scripts/*.py"
+      - ".github/workflows/build-html.yml"
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout du dépôt
+        uses: actions/checkout@v3
+
+      - name: Installer Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Installer les dépendances Python
+        run: pip install pdf2image pillow jinja2
+
+      - name: Installer Poppler (pour pdf2image)
+        run: sudo apt-get update && sudo apt-get install -y poppler-utils
+
+      - name: Générer les versions HTML depuis PDF
+        run: python scripts/convert_pdf_to_html.py
+
+      - name: Générer le index.html principal
+        run: python scripts/generate_index.py
+
+      - name: Commit et push des fichiers générés
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add html_plaquettes/*.html html_plaquettes/*.png index.html
+          git commit -m "🔄 Génération automatique des HTML plaquettes + index"
+          git push || echo "Pas de modifications à pousser."

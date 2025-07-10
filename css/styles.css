@@ -1,0 +1,125 @@
+:root {
+  --violet-principal: #6d4da3;
+  --violet-clair: #d4c4f0;
+  --rose-clair: #f6e4ef;
+  --bleu: #a3bdf2;
+  --bleu-foncé: #4159a9;
+  --text-dark: #2e2e2e;
+  --text-light: #ffffff;
+  --bg-main: #f9f9fb;
+  --bg-card: #ffffff;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Roboto, sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-dark);
+}
+
+header {
+  background: var(--violet-principal);
+  color: var(--text-light);
+  padding: 2rem 1rem;
+  text-align: center;
+  font-weight: bold;
+  font-size: 2rem;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  background: var(--violet-clair);
+  padding: 1rem;
+  gap: 1rem;
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--violet-principal);
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  background: var(--rose-clair);
+  transition: all 0.2s ease-in-out;
+}
+
+nav a:hover {
+  background: var(--violet-principal);
+  color: white;
+}
+
+main {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+h2 {
+  color: var(--violet-principal);
+  border-left: 4px solid var(--bleu-foncé);
+  padding-left: 0.5rem;
+  margin-top: 2rem;
+}
+
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.product-card {
+  background: var(--bg-card);
+  border: 1px solid var(--violet-clair);
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.product-card h3 {
+  color: var(--bleu-foncé);
+  margin-bottom: 0.5rem;
+}
+
+.product-card p {
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.product-card a {
+  align-self: flex-start;
+  text-decoration: none;
+  padding: 0.4rem 0.8rem;
+  background: var(--violet-principal);
+  color: white;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.section-contributors,
+.section-stats {
+  margin-top: 3rem;
+  background: var(--bleu);
+  padding: 1rem;
+  border-radius: 1rem;
+  color: #fff;
+}
+
+footer {
+  text-align: center;
+  margin: 3rem 0 1rem;
+  color: #666;
+  font-size: 0.9rem;
+}

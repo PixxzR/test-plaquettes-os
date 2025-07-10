@@ -1,0 +1,12 @@
+[
+  {
+    "login": "alice",
+    "avatar_url": "https://github.com/alice.png",
+    "commits": 42
+  },
+  {
+    "login": "bob",
+    "avatar_url": "https://github.com/bob.png",
+    "commits": 30
+  }
+]

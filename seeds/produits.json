@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Gabarit",
+    "description": "Templates Python pour projets Data Science. Génère une base de code complète pour accélérer la mise en production et les tests de vos modèles IA.",
+    "link": "https://france-travail.github.io/gabarit/"
+  },
+  {
+    "name": "TradOpen : TradEmploi / TradSNCF",
+    "description": "Application multilingue pour traduire voix et texte via Google, Azure ou DeepL. Déployée à France Travail (2022) et SNCF (2024).",
+    "link": "https://github.com/France-Travail/TradEmploi"
+  },
+  {
+    "name": "Architecture",
+    "description": "Partage d’outils, modèles et bonnes pratiques pour une architecture SI continue, résiliente, écoresponsable et collaborative à France Travail.",
+    "link": "https://github.com/France-Travail/Architecture"
+  },
+  {
+    "name": "Sensibilisation Conception Responsable",
+    "description": "Site statique pour découvrir les enjeux et bonnes pratiques d’écoconception numérique : impacts, principes, fiches par métier, mise en œuvre.",
+    "link": "https://france-travail.github.io/sensibilisation-conception-responsable/"
+  }
+]
