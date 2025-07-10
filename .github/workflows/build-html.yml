@@ -22,25 +22,50 @@ jobs:
 
       - name: 📦 Installer les dépendances nécessaires
         run: |
+          echo "⏬ Mise à jour de pip et installation de pdf2image + pillow"
           python -m pip install --upgrade pip
           pip install pdf2image pillow
 
       - name: 🔧 Installer Poppler (nécessaire pour pdf2image)
-        run: sudo apt-get update && sudo apt-get install -y poppler-utils
+        run: |
+          echo "🔧 Installation de poppler-utils via apt"
+          sudo apt-get update && sudo apt-get install -y poppler-utils
 
       - name: 🗂️ Créer le dossier de sortie (si absent)
-        run: mkdir -p html_plaquettes
+        run: |
+          echo "📁 Création du dossier html_plaquettes s'il n'existe pas"
+          mkdir -p html_plaquettes
 
       - name: 🖨️ Lancer la conversion PDF ➜ HTML
-        run: python scripts/convert_pdf_to_html.py
+        run: |
+          echo "🚀 Lancement du script de conversion"
+          python scripts/convert_pdf_to_html.py
+
+      - name: 🔍 Vérifie si le token GH_PAT est injecté
+        run: |
+          if [ -z "${{ secrets.GH_PAT }}" ]; then
+            echo "❌ Le secret GH_PAT est vide ou non injecté"
+            exit 1
+          else
+            echo "✅ Le token GH_PAT est bien injecté (premiers caractères) : $(echo ${{ secrets.GH_PAT }} | cut -c1-4)***"
+          fi
 
       - name: 📤 Commit & Push des fichiers générés
         run: |
+          echo "📝 Configuration Git"
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git add html_plaquettes/*.html html_plaquettes/*.png
+          echo "📦 Ajout des fichiers générés"
+          git add html_plaquettes/*.html html_plaquettes/*.png || echo "⚠️ Aucun fichier à ajouter"
+
+          echo "🔍 Diff des fichiers indexés :"
+          git diff --cached || true
+
+          echo "🧾 Tentative de commit"
           git diff --cached --quiet || git commit -m "🖼️ Conversion PDF ➜ HTML automatique"
-          git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/${{ github.repository }}.git
+
+          echo "🚀 Tentative de push avec token"
+          git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/${{ github.repository }}.git# name: Générer les plaquettes HTML
 
 # name: Générer les plaquettes HTML
 
